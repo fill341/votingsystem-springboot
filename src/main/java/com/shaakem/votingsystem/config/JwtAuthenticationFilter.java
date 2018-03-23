@@ -14,7 +14,7 @@ import java.io.IOException;
 
 public class JwtAuthenticationFilter extends GenericFilterBean {
 
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     public JwtAuthenticationFilter(UserRepository userRepository) {
         this.userRepository = userRepository;
