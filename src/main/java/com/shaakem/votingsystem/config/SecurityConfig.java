@@ -41,13 +41,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        // Create a default account
-//        auth.inMemoryAuthentication()
-//                .withUser("admin")
-//                .password("{noop}password")
-//                .roles("ADMIN");
-
         auth.authenticationProvider(authProvider);
-
     }
 }
