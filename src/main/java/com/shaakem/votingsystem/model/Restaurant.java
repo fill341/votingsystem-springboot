@@ -13,6 +13,14 @@ public class Restaurant extends AbstractNamedEntity {
     @Size(min = 5, max = 20)
     private String address;
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "restaurant")
+    @OrderBy("dateTime DESC")
+    private List<Menu> menus;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "restaurant")
+    @OrderBy("name ASC")
+    private List<Dish> dishes;
+
     public Restaurant() {
     }
 
@@ -31,6 +39,22 @@ public class Restaurant extends AbstractNamedEntity {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public List<Menu> getMenus() {
+        return menus;
+    }
+
+    public void setMenus(List<Menu> menus) {
+        this.menus = menus;
+    }
+
+    public List<Dish> getDishes() {
+        return dishes;
+    }
+
+    public void setDishes(List<Dish> dishes) {
+        this.dishes = dishes;
     }
 
     @Override
