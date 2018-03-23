@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.shaakem.votingsystem.util.ValidationUtil.assureIdConsistent;
+import static com.shaakem.votingsystem.util.ValidationUtil.checkNew;
+
 @RestController
 @RequestMapping(RestaurantController.REST_URL)
 public class RestaurantController {
@@ -21,6 +24,36 @@ public class RestaurantController {
 
     @Autowired
     private RestaurantRepository restaurantRepository;
+
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public Restaurant save(@RequestBody Restaurant restaurant) {
+        log.info("Save restaurant: " + restaurant);
+        checkNew(restaurant);
+        return restaurantRepository.save(restaurant);
+    }
+
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public void update(@RequestBody Restaurant restaurant, @PathVariable("id") int id) {
+        log.info("Update {} with id={}", restaurant, id);
+        assureIdConsistent(restaurant, id);
+        restaurantRepository.update(restaurant);
+    }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public void delete(@PathVariable("id") int id) {
+        log.info("Delete restaurant by id: " + id);
+        restaurantRepository.delete(id);
+    }
+
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public RestaurantTo get(@PathVariable("id") int id) {
+        log.info("Get restaurant by id: " + id);
+        return new RestaurantTo(restaurantRepository.get(id));
+    }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
