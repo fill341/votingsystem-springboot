@@ -13,11 +13,11 @@ public class Restaurant extends AbstractNamedEntity {
     @Size(min = 5, max = 20)
     private String address;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "restaurant")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
     @OrderBy("dateTime DESC")
     private List<Menu> menus;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "restaurant")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
     @OrderBy("name ASC")
     private List<Dish> dishes;
 
