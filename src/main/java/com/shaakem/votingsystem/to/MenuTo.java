@@ -6,6 +6,7 @@ import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MenuTo implements Serializable {
     @NotBlank
@@ -14,8 +15,9 @@ public class MenuTo implements Serializable {
     @NotBlank
     private LocalDateTime dateTime;
 
-//    private List<DishTo> dishes;
-private List<Integer> dishes;
+    private List<DishTo> dishes;
+
+    private List<Integer> dishesId;
 
     public MenuTo() {
     }
@@ -23,16 +25,14 @@ private List<Integer> dishes;
     public MenuTo(Menu menu) {
         this.id = menu.getId();
         this.dateTime = menu.getDateTime();
-//        this.dishes = menu.getDishes().stream().map(DishTo::new).collect(Collectors.toList());
+        this.dishes = menu.getDishes().stream().map(DishTo::new).collect(Collectors.toList());
     }
 
-    ///////
-    public MenuTo(int id, LocalDateTime dateTime, List<Integer> dishes) {
+    public MenuTo(int id, LocalDateTime dateTime, List<Integer> dishesId) {
         this.id = id;
         this.dateTime = dateTime;
-        this.dishes = dishes;
+        this.dishesId = dishesId;
     }
-    ///////
 
     public Integer getId() {
         return id;
@@ -50,20 +50,19 @@ private List<Integer> dishes;
         this.dateTime = dateTime;
     }
 
-//    public List<DishTo> getDishes() {
-//        return dishes;
-//    }
-//
-//    public void setDishes(List<DishTo> dishes) {
-//        this.dishes = dishes;
-//    }
-
-
-    public List<Integer> getDishes() {
+    public List<DishTo> getDishes() {
         return dishes;
     }
 
-    public void setDishes(List<Integer> dishes) {
+    public void setDishes(List<DishTo> dishes) {
         this.dishes = dishes;
+    }
+
+    public List<Integer> getDishesId() {
+        return dishesId;
+    }
+
+    public void setDishesId(List<Integer> dishes) {
+        this.dishesId = dishes;
     }
 }
