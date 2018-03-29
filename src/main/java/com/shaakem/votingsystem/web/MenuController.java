@@ -33,12 +33,12 @@ public class MenuController {
 
     @PostMapping(value = "/{restaurantId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public Menu save(@PathVariable("restaurantId") int restaurantId, @RequestBody MenuTo menuTo) {
+    public MenuTo save(@PathVariable("restaurantId") int restaurantId, @RequestBody MenuTo menuTo) {
 
         Menu menu = new Menu(menuTo.getDateTime());
 
         Set<Dish> dishes = new HashSet<>();
-        for (int dishId : menuTo.getDishes()) {
+        for (int dishId : menuTo.getDishesId()) {
             dishes.add(dishRepository.get(dishId, restaurantId));
         }
 
@@ -46,7 +46,7 @@ public class MenuController {
 
         log.info("Save menu: " + menu);
         checkNew(menu);
-        return menuRepository.save(menu, restaurantId);
+        return new MenuTo(menuRepository.save(menu, restaurantId));
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
