@@ -2,6 +2,7 @@ package com.shaakem.votingsystem.web;
 
 import com.shaakem.votingsystem.model.Dish;
 import com.shaakem.votingsystem.repository.dish.DishRepository;
+import com.shaakem.votingsystem.repository.menu.MenuRepository;
 import com.shaakem.votingsystem.to.DishTo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +21,9 @@ import static com.shaakem.votingsystem.util.ValidationUtil.checkNew;
 public class DishController {
     static final String REST_URL = "/admin/rest/dishes";
     private final Logger log = LoggerFactory.getLogger(getClass());
+
+    @Autowired
+    private MenuRepository menuRepository;
 
     @Autowired
     private DishRepository dishRepository;
@@ -46,13 +50,32 @@ public class DishController {
         return new DishTo(dishRepository.get(id, restaurantId));
     }
 
+//    @GetMapping(params = "restaurantId", produces = MediaType.APPLICATION_JSON_VALUE)
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
+//    public List<DishTo> getAll(
+//            @RequestParam(value = "restaurantId") int restaurantId
+//    ) {
+//        log.info("Get all dishes with restaurantId: " + restaurantId);
+//
+//        List<DishTo> list = new ArrayList<>();
+//        for (Dish dish : dishRepository.getAll(restaurantId)) {
+//            DishTo dishTo = new DishTo(dish);
+//            list.add(dishTo);
+//        }
+//
+//        return list;
+//    }
+
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public List<DishTo> getAll(@RequestParam("restaurantId") int restaurantId) {
-        log.info("Get all dishes with restaurantId: " + restaurantId);
+    public List<DishTo> getByMenuId(
+            @RequestParam(value = "menuId") int menuId,
+            @RequestParam(value = "restaurantId") int restaurantId
+    ) {
+        log.info("Get all dishes with menuId: " + menuId);
 
         List<DishTo> list = new ArrayList<>();
-        for (Dish dish : dishRepository.getAll(restaurantId)) {
+        for (Dish dish : menuRepository.get(menuId, restaurantId).getDishes()) {
             DishTo dishTo = new DishTo(dish);
             list.add(dishTo);
         }
