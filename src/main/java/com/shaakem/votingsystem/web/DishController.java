@@ -50,23 +50,29 @@ public class DishController {
         return new DishTo(dishRepository.get(id, restaurantId));
     }
 
-//    @GetMapping(params = "restaurantId", produces = MediaType.APPLICATION_JSON_VALUE)
-//    @PreAuthorize("hasRole('ROLE_ADMIN')")
-//    public List<DishTo> getAll(
-//            @RequestParam(value = "restaurantId") int restaurantId
-//    ) {
-//        log.info("Get all dishes with restaurantId: " + restaurantId);
-//
-//        List<DishTo> list = new ArrayList<>();
-//        for (Dish dish : dishRepository.getAll(restaurantId)) {
-//            DishTo dishTo = new DishTo(dish);
-//            list.add(dishTo);
-//        }
-//
-//        return list;
-//    }
+    @GetMapping(
+            params = "restaurantId",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public List<DishTo> getAll(
+            @RequestParam(value = "restaurantId") int restaurantId
+    ) {
+        log.info("Get all dishes with restaurantId: " + restaurantId);
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+        List<DishTo> list = new ArrayList<>();
+        for (Dish dish : dishRepository.getAll(restaurantId)) {
+            DishTo dishTo = new DishTo(dish);
+            list.add(dishTo);
+        }
+
+        return list;
+    }
+
+    @GetMapping(
+            params = {"menuId", "restaurantId"},
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public List<DishTo> getByMenuId(
             @RequestParam(value = "menuId") int menuId,
