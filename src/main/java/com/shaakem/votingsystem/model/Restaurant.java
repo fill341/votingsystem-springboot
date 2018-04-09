@@ -21,6 +21,10 @@ public class Restaurant extends AbstractNamedEntity {
     @OrderBy("name ASC")
     private List<Dish> dishes;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
+    @OrderBy("name ASC")
+    private List<Vote> votes;
+
     public Restaurant() {
     }
 
