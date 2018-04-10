@@ -13,9 +13,10 @@ CREATE SEQUENCE global_seq
 CREATE TABLE users
 (
   id       INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-  name     VARCHAR NOT NULL,
-  password VARCHAR NOT NULL,
-  email    VARCHAR NOT NULL
+  name     VARCHAR                 NOT NULL,
+  password VARCHAR                 NOT NULL,
+  email    VARCHAR                 NOT NULL,
+  enabled  BOOL DEFAULT TRUE       NOT NULL
 );
 CREATE UNIQUE INDEX users_unique_email_idx
   ON users (email);
@@ -58,10 +59,10 @@ CREATE TABLE menu_dish (
 );
 
 CREATE TABLE votes (
-  id        INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-  user_id   INTEGER   NOT NULL,
+  id            INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
+  user_id       INTEGER   NOT NULL,
   restaurant_id INTEGER   NOT NULL,
-  date_time TIMESTAMP NOT NULL,
+  date_time     TIMESTAMP NOT NULL,
   FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
   FOREIGN KEY (restaurant_id) REFERENCES restaurants (id) ON DELETE CASCADE
 );
