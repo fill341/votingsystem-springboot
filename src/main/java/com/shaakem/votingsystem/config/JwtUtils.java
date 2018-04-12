@@ -1,7 +1,7 @@
 package com.shaakem.votingsystem.config;
 
 import com.shaakem.votingsystem.model.User;
-import com.shaakem.votingsystem.repository.user.UserRepository;
+import com.shaakem.votingsystem.service.UserService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -32,7 +32,7 @@ class JwtUtils {
         res.addHeader(HEADER_STRING, TOKEN_PREFIX + " " + JWT);
     }
 
-    static Authentication getAuthentication(HttpServletRequest request, UserRepository userRepository) {
+    static Authentication getAuthentication(HttpServletRequest request, UserService userService) {
         String token = request.getHeader(HEADER_STRING);
 
         if (token != null) {
@@ -42,7 +42,7 @@ class JwtUtils {
                     .getBody()
                     .getSubject();
 
-            User user = userRepository.getByName(userName);
+            User user = userService.getByName(userName);
 
             return user != null ?
                     new UsernamePasswordAuthenticationToken(userName, null,new ArrayList<GrantedAuthority>(user.getRoles())) :
