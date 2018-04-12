@@ -1,7 +1,7 @@
 package com.shaakem.votingsystem.config;
 
 import com.shaakem.votingsystem.model.User;
-import com.shaakem.votingsystem.repository.user.UserRepository;
+import com.shaakem.votingsystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,14 +15,15 @@ import java.util.List;
 
 @Component
 public class CustomAuthenticationProvider implements AuthenticationProvider {
+
     @Autowired
-    private UserRepository repository;
+    private UserService userService;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String name = authentication.getName();
         String password = authentication.getCredentials().toString();
-        User user = repository.getByName(name);
+        User user = userService.getByName(name);
 
         if (user.getPassword().equals(password) && user != null) {
 
