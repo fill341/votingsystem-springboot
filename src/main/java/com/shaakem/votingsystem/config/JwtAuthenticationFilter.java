@@ -1,6 +1,6 @@
 package com.shaakem.votingsystem.config;
 
-import com.shaakem.votingsystem.repository.user.UserRepository;
+import com.shaakem.votingsystem.service.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
@@ -14,10 +14,10 @@ import java.io.IOException;
 
 public class JwtAuthenticationFilter extends GenericFilterBean {
 
-    private UserRepository userRepository;
+    private UserService userService;
 
-    public JwtAuthenticationFilter(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public JwtAuthenticationFilter(UserService userService) {
+        this.userService = userService;
     }
 
     @Override
@@ -27,7 +27,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
             throws IOException, ServletException {
 
         Authentication authentication = JwtUtils
-                .getAuthentication((HttpServletRequest)request, userRepository);
+                .getAuthentication((HttpServletRequest)request, userService);
 
         SecurityContextHolder.getContext()
                 .setAuthentication(authentication);
