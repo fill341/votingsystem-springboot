@@ -31,14 +31,14 @@ public class VoteController {
     @PreAuthorize("hasRole('ROLE_USER')")
     public List<VoteTo> getAll(@AuthenticationPrincipal AuthorizedUser authorizedUser) {
 
-        int userId = 100001;
-        log.info("Get all votes by userId: " + userId);
+//        int userId = 100001;
+//        log.info("Get all votes by userId: " + userId);
 
-        int uId = authorizedUser.get().getId();
+        int uId = authorizedUser.id();
         log.info("Authorized uer Id: "+ uId);
 
         List<VoteTo> list = new ArrayList<>();
-        for (Vote vote : voteRepository.getAll(userId)) {
+        for (Vote vote : voteRepository.getAll(uId)) {
             VoteTo voteTo = new VoteTo(vote);
             list.add(voteTo);
         }
