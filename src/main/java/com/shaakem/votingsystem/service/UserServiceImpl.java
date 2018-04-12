@@ -37,6 +37,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User getByName(String name)  throws NotFoundException{
+        Assert.notNull(name, "name must not be null");
+        return checkNotFound(userRepository.getByName(name), "name=" + name);
+    }
+
+    @Override
     public List<User> getAll() {
         return userRepository.getAll();
     }
