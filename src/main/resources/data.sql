@@ -14,31 +14,57 @@ INSERT INTO users (name, email, password) VALUES
 
 INSERT INTO user_roles (role, user_id) VALUES
   ('ROLE_USER', 100001),
+  ('ROLE_USER', 100002),
   ('ROLE_ADMIN', 100000),
   ('ROLE_USER', 100000);
 
 INSERT INTO restaurants (name, address) VALUES
   ('McDonalds', 'Lenina 1'),
   ('KFC', 'Sovetskiy 1'),
-  ('Burger King', 'Leningradskiy 1');
+  ('Burger King', 'Leningradskiy 1'),
+  ('Podorojnik', 'Pionersky 1'),
+  ('Silver Food', 'Krasnoarmeyskaya 1');
 
 INSERT INTO menus (restaurant_id, date_time) VALUES
-  (100003, '2018-01-26 8:00:00'),
-  (100003, '2018-01-27 12:00:00'),
-  (100004, '2018-01-30 8:00:00');
+  (100003, '2018-04-14 8:00:00'),
+  (100004, '2018-04-14 8:00:00'),
+  (100005, '2018-04-14 8:00:00'),
+  (100006, '2018-04-14 8:00:00'),
+  (100007, '2018-04-14 8:00:00');
 
 INSERT INTO dishes (restaurant_id, name, price) VALUES
   (100003, 'BigMac', 150),
-  (100003, 'FreePotato', 100),
-  (100003, 'PepsiCola', 50),
-  (100004, 'Twister', 200);
+  (100003, 'Pepsi', 50),
+
+  (100004, 'Twister', 200),
+  (100004, 'CocaCola', 50),
+
+  (100005, 'DoubleBurger', 300),
+  (100005, 'MDew', 60),
+
+  (100006, 'Tapochek', 80),
+  (100006, 'Mors', 40),
+
+  (100007, 'Pizza', 120),
+  (100007, 'Juice', 80);
 
 INSERT INTO menu_dish (menu_id, dish_id) VALUES
-  (100006, 100009),
-  (100006, 100010),
-  (100007, 100012);
+  (100008, 100013),
+  (100008, 100014),
+
+  (100009, 100015),
+  (100009, 100016),
+
+  (100010, 100017),
+  (100010, 100018),
+
+  (100011, 100019),
+  (100011, 100020),
+
+  (100012, 100021),
+  (100012, 100022);
 
 INSERT INTO votes (user_id, restaurant_id, date_time) VALUES
-  (100000, 100003, '2018-01-19 10:00:00'),
-  (100000, 100003, '2018-01-20 10:00:00'),
-  (100001, 100003, '2018-01-19 08:30:00');
+  (100000, 100003, '2018-04-14 8:00:00'),
+  (100001, 100004, '2018-04-14 8:00:00'),
+  (100002, 100003, '2018-04-14 8:00:00');
