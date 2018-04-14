@@ -5,6 +5,7 @@ import com.shaakem.votingsystem.model.User;
 import com.shaakem.votingsystem.repository.user.UserRepository;
 import com.shaakem.votingsystem.util.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -52,7 +53,7 @@ public class UserService implements UserDetailsService {
     }
 
     @Override
-    public AuthorizedUser loadUserByUsername(String name) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
         User user = userRepository.getByName(name);
         if (user == null) {
             throw new UsernameNotFoundException("User " + name + " is not found");
