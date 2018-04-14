@@ -4,29 +4,29 @@ import com.shaakem.votingsystem.model.Vote;
 
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public class VoteTo implements Serializable {
     @NotBlank
     private Integer id;
 
     @NotBlank
-    private LocalDateTime dateTime;
+    private LocalDate localDate;
 
     @NotBlank
     private Integer userId;
 
     @NotBlank
-    private Integer restaurantId;
+    private String restaurant;
 
     public VoteTo() {
     }
 
     public VoteTo(Vote vote) {
         this.id = vote.getId();
-        this.dateTime = vote.getDateTime();
+        this.localDate = vote.getDateTime().toLocalDate();
         this.userId = vote.getUser().getId();
-        this.restaurantId = vote.getRestaurant().getId();
+        this.restaurant = vote.getRestaurant().getName();
     }
 
     public Integer getId() {
@@ -37,12 +37,12 @@ public class VoteTo implements Serializable {
         this.id = id;
     }
 
-    public LocalDateTime getDateTime() {
-        return dateTime;
+    public LocalDate getLocalDate() {
+        return localDate;
     }
 
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
+    public void setLocalDate(LocalDate localDate) {
+        this.localDate = localDate;
     }
 
     public Integer getUserId() {
@@ -53,11 +53,11 @@ public class VoteTo implements Serializable {
         this.userId = userId;
     }
 
-    public Integer getRestaurantId() {
-        return restaurantId;
+    public String getRestaurant() {
+        return restaurant;
     }
 
-    public void setRestaurantId(Integer restaurantId) {
-        this.restaurantId = restaurantId;
+    public void setRestaurant(String restaurant) {
+        this.restaurant = restaurant;
     }
 }
