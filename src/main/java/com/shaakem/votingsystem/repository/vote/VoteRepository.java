@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface VoteRepository {
     List<Vote> getAll(int userId);
+
+    List<Vote> getAllPerToday();
 }
