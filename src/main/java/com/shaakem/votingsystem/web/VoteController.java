@@ -10,7 +10,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,6 +29,9 @@ public class VoteController {
     @Autowired
     private VoteRepository voteRepository;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('ROLE_USER')")
     public List<VoteTo> getAll(@AuthenticationPrincipal AuthorizedUser authorizedUser) {
@@ -34,11 +39,15 @@ public class VoteController {
 //        int userId = 100001;
 //        log.info("Get all votes by userId: " + userId);
 
-        int uId = authorizedUser.id();
-        log.info("Authorized uer Id: "+ uId);
+//
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String name = authentication.getName();
+        int userId = userService.getByName(name).getId();
+        log.info("Get all votes by userId: " + userId);
 
         List<VoteTo> list = new ArrayList<>();
-        for (Vote vote : voteRepository.getAll(uId)) {
+        for (Vote vote : voteRepository.getAll(userId)) {
             VoteTo voteTo = new VoteTo(vote);
             list.add(voteTo);
         }
