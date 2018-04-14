@@ -24,7 +24,7 @@ public class Vote extends AbstractBaseEntity{
     @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @NotNull
-    private User restaurant;
+    private Restaurant restaurant;
 
     public Vote() {
     }
@@ -54,11 +54,11 @@ public class Vote extends AbstractBaseEntity{
         this.user = user;
     }
 
-    public User getRestaurant() {
+    public Restaurant getRestaurant() {
         return restaurant;
     }
 
-    public void setRestaurant(User restaurant) {
+    public void setRestaurant(Restaurant restaurant) {
         this.restaurant = restaurant;
     }
 
