@@ -60,14 +60,14 @@ CREATE TABLE menu_dish (
 
 CREATE TABLE votes (
   id            INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-  user_id       INTEGER   NOT NULL,
-  restaurant_id INTEGER   NOT NULL,
-  date_time     TIMESTAMP NOT NULL,
+  user_id       INTEGER NOT NULL,
+  restaurant_id INTEGER NOT NULL,
+  local_date     DATE    NOT NULL,
   FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
   FOREIGN KEY (restaurant_id) REFERENCES restaurants (id) ON DELETE CASCADE
 );
-CREATE UNIQUE INDEX votes_unique_user_datetime_idx
-  ON votes (user_id, date_time);
+CREATE UNIQUE INDEX votes_unique_user_localdate_idx
+  ON votes (user_id, local_date);
 
 
 
