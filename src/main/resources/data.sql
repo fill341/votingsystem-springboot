@@ -64,7 +64,15 @@ INSERT INTO menu_dish (menu_id, dish_id) VALUES
   (100012, 100021),
   (100012, 100022);
 
+INSERT INTO users (name, email, password) VALUES
+  ('User03', 'user03@gmail.com', 'user03'),
+  ('User04', 'user04@gmail.com', 'user04'),
+  ('User05', 'user05@gmail.com', 'user05');
+
 INSERT INTO votes (user_id, restaurant_id, local_date) VALUES
   (100000, 100003, '2018-04-15'),
   (100001, 100004, '2018-04-15'),
-  (100002, 100003, '2018-04-15');
+  (100002, 100003, '2018-04-15'),
+  (100023, 100004, '2018-04-15'),
+  (100024, 100004, '2018-04-15'),
+  (100025, 100005, '2018-04-15');
