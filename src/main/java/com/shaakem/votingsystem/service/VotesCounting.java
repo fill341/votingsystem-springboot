@@ -9,10 +9,10 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
+import java.util.stream.Stream;
 
 @Component
 public class VotesCounting {
@@ -24,21 +24,21 @@ public class VotesCounting {
     //    @Scheduled(cron = "0 0 11 * * *")
     @Scheduled(cron = "*/10 * * * * *")
     public void reportCurrentTime() {
-        log.info("Votes Counting per today: ", LocalDate.now());
+        log.info("Votes Counting per today: " + LocalDate.now());
 
-        Map<Integer, Integer> map = new TreeMap<>();
+        Map<Integer, Integer> restaurantIdWithVotesCount = new HashMap<>();
 
-        List<Vote> listVotes = voteRepository.getAllPerToday();
-//        List<Integer> list = new ArrayList<>();
-//        for (Vote vote : voteRepository.getAllPerToday()) {
-//            list.add(vote.getRestaurant().getId());
-//            map.put(vote.getRestaurant().getId(), map.get(vote.getRestaurant().getId()) + 1);
-//        }
+        for (Vote vote : voteRepository.getAllPerToday())
+            if (restaurantIdWithVotesCount.containsKey(vote.getRestaurant().getId())) {
+                restaurantIdWithVotesCount.put(vote.getRestaurant().getId(), restaurantIdWithVotesCount.get(vote.getRestaurant().getId()) + 1);
+            } else {
+                restaurantIdWithVotesCount.put(vote.getRestaurant().getId(), 1);
+            }
 
-        for (Map.Entry<Integer, Integer> pair : map.entrySet()) {
-            log.info("*** restId: " + pair.getKey() + " count: " + pair.getValue());
-        }
+        Stream<Map.Entry<Integer,Integer>> sortedRestaurantIdWithVotesCount =
+                restaurantIdWithVotesCount.entrySet().stream()
+                        .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()));
 
-        log.info(" Winner is TODO");
+        log.info(" Winner is restaurant with id: " + sortedRestaurantIdWithVotesCount.findFirst().get().getKey());
     }
 }
