@@ -24,7 +24,7 @@ public class VoteTo implements Serializable {
 
     public VoteTo(Vote vote) {
         this.id = vote.getId();
-        this.localDate = vote.getDateTime().toLocalDate();
+        this.localDate = vote.getLocalDate();
         this.userId = vote.getUser().getId();
         this.restaurant = vote.getRestaurant().getName();
     }
