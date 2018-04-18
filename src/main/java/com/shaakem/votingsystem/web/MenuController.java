@@ -35,7 +35,7 @@ public class MenuController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public MenuTo save(@PathVariable("restaurantId") int restaurantId, @RequestBody MenuTo menuTo) {
 
-        Menu menu = new Menu(menuTo.getDateTime());
+        Menu menu = new Menu(menuTo.getLocalDate());
 
         Set<Dish> dishes = new HashSet<>();
         for (int dishId : menuTo.getDishesId()) {

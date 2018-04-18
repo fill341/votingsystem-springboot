@@ -4,7 +4,7 @@ import com.shaakem.votingsystem.model.Menu;
 
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,7 +13,7 @@ public class MenuTo implements Serializable {
     private Integer id;
 
     @NotBlank
-    private LocalDateTime dateTime;
+    private LocalDate localDate;
 
     private List<DishTo> dishes;
 
@@ -24,14 +24,8 @@ public class MenuTo implements Serializable {
 
     public MenuTo(Menu menu) {
         this.id = menu.getId();
-        this.dateTime = menu.getDateTime();
+        this.localDate = menu.getLocalDate();
         this.dishes = menu.getDishes().stream().map(DishTo::new).collect(Collectors.toList());
-    }
-
-    public MenuTo(int id, LocalDateTime dateTime, List<Integer> dishesId) {
-        this.id = id;
-        this.dateTime = dateTime;
-        this.dishesId = dishesId;
     }
 
     public Integer getId() {
@@ -42,12 +36,12 @@ public class MenuTo implements Serializable {
         this.id = id;
     }
 
-    public LocalDateTime getDateTime() {
-        return dateTime;
+    public LocalDate getLocalDate() {
+        return localDate;
     }
 
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
+    public void setLocalDate(LocalDate localDate) {
+        this.localDate = localDate;
     }
 
     public List<DishTo> getDishes() {

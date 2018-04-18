@@ -25,12 +25,12 @@ INSERT INTO restaurants (name, address) VALUES
   ('Podorojnik', 'Pionersky 1'),
   ('Silver Food', 'Krasnoarmeyskaya 1');
 
-INSERT INTO menus (restaurant_id, date_time) VALUES
-  (100003, '2018-04-15 8:00:00'),
-  (100004, '2018-04-15 8:00:00'),
-  (100005, '2018-04-15 8:00:00'),
-  (100006, '2018-04-15 8:00:00'),
-  (100007, '2018-04-15 8:00:00');
+INSERT INTO menus (restaurant_id, local_date) VALUES
+  (100003, '2018-04-16'),
+  (100004, '2018-04-16'),
+  (100005, '2018-04-16'),
+  (100006, '2018-04-16'),
+  (100007, '2018-04-16');
 
 INSERT INTO dishes (restaurant_id, name, price) VALUES
   (100003, 'BigMac', 150),
@@ -70,9 +70,9 @@ INSERT INTO users (name, email, password) VALUES
   ('User05', 'user05@gmail.com', 'user05');
 
 INSERT INTO votes (user_id, restaurant_id, local_date) VALUES
-  (100000, 100003, '2018-04-15'),
-  (100001, 100004, '2018-04-15'),
-  (100002, 100003, '2018-04-15'),
-  (100023, 100004, '2018-04-15'),
-  (100024, 100004, '2018-04-15'),
-  (100025, 100005, '2018-04-15');
+  (100000, 100003, '2018-04-16'),
+  (100001, 100004, '2018-04-16'),
+  (100002, 100003, '2018-04-16'),
+  (100023, 100004, '2018-04-16'),
+  (100024, 100004, '2018-04-16'),
+  (100025, 100005, '2018-04-16');

@@ -1,20 +1,22 @@
 package com.shaakem.votingsystem.model;
 
+import com.shaakem.votingsystem.util.LocalDateAttributeConverter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "menus", uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "date_time"}, name = "menus_unique_restaurant_datetime_idx")})
+@Table(name = "menus", uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "local_date"}, name = "menus_unique_restaurant_localdate_idx")})
 public class Menu extends AbstractBaseEntity {
-    @Column(name = "date_time", nullable = false)
+    @Column(name = "local_date", nullable = false)
+    @Convert(converter = LocalDateAttributeConverter.class)
     @NotNull
-    private LocalDateTime dateTime;
+    private LocalDate localDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
@@ -33,21 +35,21 @@ public class Menu extends AbstractBaseEntity {
     public Menu() {
     }
 
-    public Menu(LocalDateTime dateTime) {
-        this(null, dateTime);
+    public Menu(LocalDate localDate) {
+        this(null, localDate);
     }
 
-    public Menu(Integer id, LocalDateTime dateTime) {
+    public Menu(Integer id, LocalDate localDate) {
         super(id);
-        this.dateTime = dateTime;
+        this.localDate = localDate;
     }
 
-    public LocalDateTime getDateTime() {
-        return dateTime;
+    public LocalDate getLocalDate() {
+        return localDate;
     }
 
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
+    public void setLocalDate(LocalDate localDate) {
+        this.localDate = localDate;
     }
 
     public Restaurant getRestaurant() {
@@ -70,7 +72,7 @@ public class Menu extends AbstractBaseEntity {
     public String toString() {
         return "Menu{" +
                 "id=" + id +
-                ", dateTime=" + dateTime +
+                ", localDate=" + localDate +
                 '}';
     }
 }
