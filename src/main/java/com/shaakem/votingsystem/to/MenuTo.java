@@ -15,6 +15,9 @@ public class MenuTo implements Serializable {
     @NotBlank
     private LocalDate localDate;
 
+    @NotBlank
+    private String restaurantName;
+
     private List<DishTo> dishes;
 
     private List<Integer> dishesId;
@@ -25,6 +28,7 @@ public class MenuTo implements Serializable {
     public MenuTo(Menu menu) {
         this.id = menu.getId();
         this.localDate = menu.getLocalDate();
+        this.restaurantName = menu.getRestaurant().getName();
         this.dishes = menu.getDishes().stream().map(DishTo::new).collect(Collectors.toList());
     }
 
@@ -42,6 +46,14 @@ public class MenuTo implements Serializable {
 
     public void setLocalDate(LocalDate localDate) {
         this.localDate = localDate;
+    }
+
+    public String getRestaurantName() {
+        return restaurantName;
+    }
+
+    public void setRestaurantName(String restaurantName) {
+        this.restaurantName = restaurantName;
     }
 
     public List<DishTo> getDishes() {
