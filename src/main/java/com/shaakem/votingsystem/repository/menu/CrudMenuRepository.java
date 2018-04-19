@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Transactional(readOnly = true)
@@ -21,4 +22,7 @@ public interface CrudMenuRepository extends JpaRepository<Menu, Integer> {
 
     @Query("FROM Menu m WHERE m.restaurant.id=:restaurantId")
     List<Menu> findAll(@Param("restaurantId") int restaurantId);
+
+    @Query("FROM Menu m WHERE m.localDate=:today")
+    List<Menu> getAllPerToday(@Param("today") LocalDate today);
 }

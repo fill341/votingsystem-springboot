@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -54,5 +55,11 @@ public class MenuRepositoryImpl implements MenuRepository {
     @Override
     public List<Menu> getAll(int restaurantId) {
         return crudMenuRepository.findAll(restaurantId);
+    }
+
+    @Override
+    public List<Menu> getAllPerToday() {
+        LocalDate today = LocalDate.now();
+        return crudMenuRepository.getAllPerToday(today);
     }
 }

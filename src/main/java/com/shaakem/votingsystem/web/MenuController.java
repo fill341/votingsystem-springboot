@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -56,13 +57,27 @@ public class MenuController {
         return new MenuTo(menuRepository.get(id, restaurantId));
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(params = {"restaurantId"}, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public List<MenuTo> getAll(@RequestParam("restaurantId") int restaurantId) {
         log.info("Get all menus with restaurantId: " + restaurantId);
 
         List<MenuTo> list = new ArrayList<>();
         for (Menu menu : menuRepository.getAll(restaurantId)) {
+            MenuTo menuTo = new MenuTo(menu);
+            list.add(menuTo);
+        }
+
+        return list;
+    }
+
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public List<MenuTo> getAllPerToday() {
+        log.info("Get all menus per today: " + LocalDate.now());
+
+        List<MenuTo> list = new ArrayList<>();
+        for (Menu menu : menuRepository.getAllPerToday()) {
             MenuTo menuTo = new MenuTo(menu);
             list.add(menuTo);
         }

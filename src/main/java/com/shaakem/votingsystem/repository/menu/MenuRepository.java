@@ -14,4 +14,6 @@ public interface MenuRepository {
     Menu get(int id, int restaurantId);
 
     List<Menu> getAll(int restaurantId);
+
+    List<Menu> getAllPerToday();
 }
