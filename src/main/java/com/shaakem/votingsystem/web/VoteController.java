@@ -13,12 +13,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.shaakem.votingsystem.util.ValidationUtil.checkNew;
 
 @RestController
 @RequestMapping(VoteController.REST_URL)
@@ -32,6 +32,21 @@ public class VoteController {
     @Autowired
     private UserService userService;
 
+    @PostMapping(value = "/{restaurantId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public Vote save(@PathVariable("restaurantId") int restaurantId, @RequestBody Vote vote) {
+        log.info("Save vote: " + vote);
+        checkNew(vote);
+
+        log.info("!!!!!!!!!!!!!!!!!!!!!!!!!!! " + vote.getDateTime());
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String name = authentication.getName();
+        int userId = userService.getByName(name).getId();
+        return voteRepository.save(vote, userId, restaurantId);
+//        return null;
+    }
+
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('ROLE_USER')")
     public List<VoteTo> getAll(@AuthenticationPrincipal AuthorizedUser authorizedUser) {
@@ -44,6 +59,7 @@ public class VoteController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String name = authentication.getName();
         int userId = userService.getByName(name).getId();
+
         log.info("Get all votes by userId: " + userId);
 
         List<VoteTo> list = new ArrayList<>();
