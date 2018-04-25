@@ -5,6 +5,10 @@ import com.shaakem.votingsystem.model.Vote;
 import java.util.List;
 
 public interface VoteRepository {
+    Vote save(Vote vote, int userId, int restaurantId);
+
+    Vote get(int id, int userId, int restaurantId);
+
     List<Vote> getAll(int userId);
 
     List<Vote> getAllPerToday();

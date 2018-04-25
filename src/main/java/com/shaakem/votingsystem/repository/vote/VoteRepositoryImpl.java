@@ -1,16 +1,47 @@
 package com.shaakem.votingsystem.repository.vote;
 
 import com.shaakem.votingsystem.model.Vote;
+import com.shaakem.votingsystem.repository.restaurant.CrudRestaurantRepository;
+import com.shaakem.votingsystem.repository.user.CrudUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.function.Predicate;
 
 @Repository
 public class VoteRepositoryImpl implements VoteRepository {
     @Autowired
     private CrudVoteRepository crudVoteRepository;
+
+    @Autowired
+    private CrudUserRepository crudUserRepository;
+
+    @Autowired
+    private CrudRestaurantRepository crudRestaurantRepository;
+
+    @Override
+    @Transactional
+    public Vote save(Vote vote, int userId, int restaurantId) {
+        if (!vote.isNew() && get(vote.getId(), userId, restaurantId) == null) {
+            return null;
+        }
+        vote.setUser(crudUserRepository.getOne(userId));
+        vote.setRestaurant(crudRestaurantRepository.getOne(restaurantId));
+        return crudVoteRepository.save(vote);
+    }
+
+    @Override
+    public Vote get(int id, int userId, int restaurantId) {
+        return crudVoteRepository.findById(id).filter(new Predicate<Vote>() {
+            @Override
+            public boolean test(Vote vote) {
+                return vote.getUser().getId() == userId && vote.getRestaurant().getId() == restaurantId;
+            }
+        }).orElse(null);
+    }
 
     @Override
     public List<Vote> getAll(int userId) {
@@ -19,7 +50,7 @@ public class VoteRepositoryImpl implements VoteRepository {
 
     @Override
     public List<Vote> getAllPerToday() {
-        LocalDate today = LocalDate.now();
+        LocalDateTime today = LocalDateTime.now();
         return crudVoteRepository.getAllPerToday(today);
     }
 }
