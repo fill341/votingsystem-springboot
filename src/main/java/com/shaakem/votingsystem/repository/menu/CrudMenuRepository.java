@@ -13,6 +13,7 @@ import java.util.List;
 @Transactional(readOnly = true)
 public interface CrudMenuRepository extends JpaRepository<Menu, Integer> {
     @Override
+    @Transactional
     Menu save(Menu menu);
 
     @Transactional
