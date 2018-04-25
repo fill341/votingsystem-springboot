@@ -1,21 +1,20 @@
 package com.shaakem.votingsystem.model;
 
-import com.shaakem.votingsystem.util.LocalDateAttributeConverter;
+import com.shaakem.votingsystem.util.LocalDateTimeAttributeConverter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "votes", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "local_date"}, name = "votes_unique_user_localdate_idx")})
+@Table(name = "votes", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "date_time"}, name = "votes_unique_user_datetime_idx")})
 public class Vote extends AbstractBaseEntity{
-    @Column(name = "local_date", nullable = false)
-    @Convert(converter = LocalDateAttributeConverter.class)
+    @Column(name = "date_time", nullable = false)
+    @Convert(converter = LocalDateTimeAttributeConverter.class)
     @NotNull
-    private LocalDate localDate;
+    private LocalDateTime dateTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
@@ -36,17 +35,17 @@ public class Vote extends AbstractBaseEntity{
         this(null, dateTime);
     }
 
-    public Vote(Integer id, LocalDateTime localDateTime) {
+    public Vote(Integer id, LocalDateTime dateTime) {
         super(id);
-        this.localDate = localDateTime.toLocalDate();
+        this.dateTime = dateTime;
     }
 
-    public LocalDate getLocalDate() {
-        return localDate;
+    public LocalDateTime getDateTime() {
+        return dateTime;
     }
 
-    public void setLocalDate(LocalDate localDate) {
-        this.localDate = localDate;
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
     }
 
     public User getUser() {
@@ -69,7 +68,7 @@ public class Vote extends AbstractBaseEntity{
     public String toString() {
         return "Vote{" +
                 "id=" + id +
-                ", localDate=" + localDate +
+                ", dateTime=" + dateTime +
                 '}';
     }
 }
