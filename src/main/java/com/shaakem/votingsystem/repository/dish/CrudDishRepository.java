@@ -12,6 +12,7 @@ import java.util.List;
 @Transactional(readOnly = true)
 public interface CrudDishRepository extends JpaRepository<Dish, Integer> {
     @Override
+    @Transactional
     Dish save(Dish dish);
 
     @Transactional
