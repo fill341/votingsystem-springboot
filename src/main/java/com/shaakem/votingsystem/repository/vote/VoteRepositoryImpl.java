@@ -50,6 +50,12 @@ public class VoteRepositoryImpl implements VoteRepository {
     }
 
     @Override
+    public Vote getPerToday(int userId) {
+        LocalDateTime today = LocalDateTime.now();
+        return crudVoteRepository.getPerToday(userId, today);
+    }
+
+    @Override
     public List<Vote> getAllPerToday() {
         LocalDateTime today = LocalDateTime.now();
         return crudVoteRepository.getAllPerToday(today);
