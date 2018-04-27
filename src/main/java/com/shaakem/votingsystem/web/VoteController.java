@@ -15,6 +15,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,29 +33,23 @@ public class VoteController {
     @Autowired
     private UserService userService;
 
-    @PostMapping(value = "/{restaurantId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/{restaurantId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('ROLE_USER')")
-    public Vote save(@PathVariable("restaurantId") int restaurantId, @RequestBody Vote vote) {
+    public VoteTo save(@PathVariable("restaurantId") int restaurantId) {
+        Vote vote = new Vote(LocalDateTime.now());
         log.info("Save vote: " + vote);
-        checkNew(vote);
 
-        log.info("!!!!!!!!!!!!!!!!!!!!!!!!!!! " + vote.getDateTime());
+        checkNew(vote);
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String name = authentication.getName();
         int userId = userService.getByName(name).getId();
         return voteRepository.save(vote, userId, restaurantId);
-//        return null;
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('ROLE_USER')")
     public List<VoteTo> getAll(@AuthenticationPrincipal AuthorizedUser authorizedUser) {
-
-//        int userId = 100001;
-//        log.info("Get all votes by userId: " + userId);
-
-//
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String name = authentication.getName();

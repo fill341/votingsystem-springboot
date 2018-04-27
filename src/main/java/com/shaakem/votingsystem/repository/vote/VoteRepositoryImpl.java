@@ -3,6 +3,7 @@ package com.shaakem.votingsystem.repository.vote;
 import com.shaakem.votingsystem.model.Vote;
 import com.shaakem.votingsystem.repository.restaurant.CrudRestaurantRepository;
 import com.shaakem.votingsystem.repository.user.CrudUserRepository;
+import com.shaakem.votingsystem.to.VoteTo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,13 +25,13 @@ public class VoteRepositoryImpl implements VoteRepository {
 
     @Override
     @Transactional
-    public Vote save(Vote vote, int userId, int restaurantId) {
+    public VoteTo save(Vote vote, int userId, int restaurantId) {
         if (!vote.isNew() && get(vote.getId(), userId, restaurantId) == null) {
             return null;
         }
         vote.setUser(crudUserRepository.getOne(userId));
         vote.setRestaurant(crudRestaurantRepository.getOne(restaurantId));
-        return crudVoteRepository.save(vote);
+        return new VoteTo(crudVoteRepository.save(vote));
     }
 
     @Override

@@ -1,11 +1,12 @@
 package com.shaakem.votingsystem.repository.vote;
 
 import com.shaakem.votingsystem.model.Vote;
+import com.shaakem.votingsystem.to.VoteTo;
 
 import java.util.List;
 
 public interface VoteRepository {
-    Vote save(Vote vote, int userId, int restaurantId);
+    VoteTo save(Vote vote, int userId, int restaurantId);
 
     Vote get(int id, int userId, int restaurantId);
 
