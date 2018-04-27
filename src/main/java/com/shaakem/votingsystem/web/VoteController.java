@@ -15,7 +15,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +36,7 @@ public class VoteController {
     @PostMapping(value = "/{restaurantId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('ROLE_USER')")
     public VoteTo save(@PathVariable("restaurantId") int restaurantId) {
-        Vote vote = new Vote(LocalDateTime.now());
+        Vote vote = new Vote(LocalDate.now());
         log.info("Save vote: " + vote);
 
         checkNew(vote);
@@ -44,7 +44,19 @@ public class VoteController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String name = authentication.getName();
         int userId = userService.getByName(name).getId();
+
         return voteRepository.save(vote, userId, restaurantId);
+    }
+
+    @GetMapping(value = "/isVoteAvailable", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public Boolean isVoteAvailable() {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String name = authentication.getName();
+        int userId = userService.getByName(name).getId();
+
+        return voteRepository.getPerToday(userId) == null;
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
