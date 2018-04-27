@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.function.Predicate;
@@ -51,7 +52,7 @@ public class VoteRepositoryImpl implements VoteRepository {
 
     @Override
     public Vote getPerToday(int userId) {
-        LocalDateTime today = LocalDateTime.now();
+        LocalDate today = LocalDate.now();
         return crudVoteRepository.getPerToday(userId, today);
     }
 

@@ -1,20 +1,20 @@
 package com.shaakem.votingsystem.model;
 
-import com.shaakem.votingsystem.util.LocalDateTimeAttributeConverter;
+import com.shaakem.votingsystem.util.LocalDateAttributeConverter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
-@Table(name = "votes", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "date_time"}, name = "votes_unique_user_datetime_idx")})
+@Table(name = "votes", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "local_date"}, name = "votes_unique_user_localdate_idx")})
 public class Vote extends AbstractBaseEntity{
-    @Column(name = "date_time", nullable = false)
-    @Convert(converter = LocalDateTimeAttributeConverter.class)
+    @Column(name = "local_date", nullable = false)
+    @Convert(converter = LocalDateAttributeConverter.class)
     @NotNull
-    private LocalDateTime dateTime;
+    private LocalDate localDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
@@ -31,21 +31,21 @@ public class Vote extends AbstractBaseEntity{
     public Vote() {
     }
 
-    public Vote(LocalDateTime dateTime) {
-        this(null, dateTime);
+    public Vote(LocalDate localDate) {
+        this(null, localDate);
     }
 
-    public Vote(Integer id, LocalDateTime dateTime) {
+    public Vote(Integer id, LocalDate localDate) {
         super(id);
-        this.dateTime = dateTime;
+        this.localDate = localDate;
     }
 
-    public LocalDateTime getDateTime() {
-        return dateTime;
+    public LocalDate getLocalDate() {
+        return localDate;
     }
 
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
+    public void setLocalDate(LocalDate localDate) {
+        this.localDate = localDate;
     }
 
     public User getUser() {
@@ -68,7 +68,7 @@ public class Vote extends AbstractBaseEntity{
     public String toString() {
         return "Vote{" +
                 "id=" + id +
-                ", dateTime=" + dateTime +
+                ", localDate=" + localDate +
                 '}';
     }
 }
