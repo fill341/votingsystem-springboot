@@ -72,7 +72,7 @@ public class MenuController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public List<MenuTo> getAllPerToday() {
         log.info("Get all menus per today: " + LocalDate.now());
 
