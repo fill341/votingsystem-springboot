@@ -12,11 +12,11 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
-public class JwtAuthenticationFilter extends GenericFilterBean {
+public class JwtRequestFilter extends GenericFilterBean {
 
     private UserService userService;
 
-    public JwtAuthenticationFilter(UserService userService) {
+    public JwtRequestFilter(UserService userService) {
         this.userService = userService;
     }
 

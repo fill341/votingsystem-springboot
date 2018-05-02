@@ -2,43 +2,33 @@ package com.shaakem.votingsystem.config;
 
 import com.shaakem.votingsystem.model.User;
 import com.shaakem.votingsystem.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.List;
 
-@Component
-public class CustomAuthenticationProvider implements AuthenticationProvider {
+public class CustomAuthenticationProvider implements AuthenticationManager {
 
-    @Autowired
     private UserService userService;
 
-    @Override
-    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        String name = authentication.getName();
-        String password = authentication.getCredentials().toString();
-        User user = userService.getByName(name);
-
-        if (user.getPassword().equals(password) && user != null) {
-
-            List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>(user.getRoles());
-
-            return new UsernamePasswordAuthenticationToken(
-                    user.getName(), null, authorities);
-        } else {
-            return null;
-        }
+    public CustomAuthenticationProvider(UserService userService) {
+        this.userService = userService;
     }
 
     @Override
-    public boolean supports(Class<?> authentication) {
-        return authentication.equals(
-                UsernamePasswordAuthenticationToken.class);
+    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+        UsernamePasswordAuthenticationToken result = null;
+
+        User user = userService.getByName(authentication.getName());
+
+        if (user != null && user.getPassword().equals(authentication.getCredentials().toString())) {
+            result = new UsernamePasswordAuthenticationToken(
+                    user.getName(), null, new ArrayList<GrantedAuthority>(user.getRoles()));
+        }
+
+        return result;
     }
 }
